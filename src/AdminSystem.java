@@ -39,6 +39,19 @@ public class AdminSystem {
 		return users;
 	}
 	
+//	public boolean isUsernameTaken(String username) {
+//        return users.containsKey(username); // Assuming users is a map of usernames
+//    }
+	public void updatePassword(String username, String newPassword) {
+        for (User u : users) {
+            if (u.getUserName().equals(username)) {
+                u.setPassword(newPassword); // Assuming User has a setPassword() method
+                return;
+            }
+        }
+        System.out.println("User not found."); // Optional: Handle cases where the username doesn't exist
+    }
+	
 //	User temp = new User(user, password, type);
 //	users.add(temp);
 //	if(users.contains(temp))System.out.println("Oh No!");

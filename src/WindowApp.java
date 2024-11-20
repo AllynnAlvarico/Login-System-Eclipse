@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,6 +18,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 public class WindowApp extends JFrame implements ActionListener, ItemListener, PropertyChangeListener{
@@ -23,23 +26,26 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 	@Override
 	public void itemStateChanged(ItemEvent i) {
 		// TODO Auto-generated method stub
-		if (i.getStateChange() == ItemEvent.SELECTED) {
+		if (i.getSource() == cmbUserType && i.getStateChange() == ItemEvent.SELECTED) {
 	          Object item = i.getItem();
-	          System.out.print("Hello Bitch");
-	          System.out.print(item.toString());
-	          // do something with object
+	          System.out.println("Hello Bitch");
+	          System.out.println("Selected: " + item.toString());
 	       }
-		
+		else if (i.getSource() == cmbLoginWindow && i.getStateChange() == ItemEvent.SELECTED) {
+	           Object item = i.getItem();
+	           System.out.println("Login Window selection: " + item.toString());
+	       }
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent a) {
 		// TODO Auto-generated method stub
 		if(a.getSource() == quit) System.exit(0);
-		else if(a.getActionCommand().equalsIgnoreCase("Log out")) System.out.print("Hello Bitch");
+		else if(a.getActionCommand().equalsIgnoreCase("Log out")) logout();
 		else if(a.getActionCommand().equalsIgnoreCase("Log in")) login();
 		else if(a.getActionCommand().equalsIgnoreCase("Sign up")) registration();
-//		else if(a.getSource() == cmbUserType.) System.out.print("Hello I am line 35");
+		//prediction Implementation
+//		else if (a.getActionCommand().equalsIgnoreCase("Reset Password")) resetPassword();
 	}
 
 	@Override
@@ -56,16 +62,18 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 	String strUser;
     String strPassword;
 	
-	JMenuBar menu;
+    private JMenuBar menu;
 	
-	JMenu user;
-	JMenu view;
+	private JMenu user;
+	private JMenu view;
 	
-	JMenuItem signUp;
-	JMenuItem login;
-	JMenuItem logout;
+	private JMenuItem signUp;
+	private JMenuItem login;
+	private JMenuItem logout;
 	
-	JPanel panel;
+	private JPanel panel;
+	private JTabbedPane tabbedPane;
+	private JButton showTabsButton;
 	
 	String message;
 	String[] userType = {"Individual", "Corporate", "Nonprofit Organisation"};
@@ -131,6 +139,14 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 		this.setLocation(450, 350);
 		this.setPreferredSize(new Dimension(300, 300));
 		
+		
+		
+		//This is the Prediction 
+//		JMenuItem resetPassword = new JMenuItem("Reset Password");
+//		resetPassword.addActionListener(this);
+//		user.add(resetPassword);
+
+		
 	}
 	
 	public void login(){
@@ -168,6 +184,7 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 	    passField = new JPasswordField();
 	    
 	    cmbUserType = new JComboBox<String>(userType);
+	    cmbUserType.addItemListener(this);
 	    
 	    result = JOptionPane.showOptionDialog(this, new Object[] {message, userField, passField, cmbUserType},
 	    "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -187,13 +204,22 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 	}
 	 public void panel(String userName){
 	        panel = new JPanel();
-	        JLabel lblWelcome = new JLabel();
-	        String strWelcome = "Welcome " + userName;
-	        lblWelcome.setText(strWelcome);
+	        panel.setLayout(new BorderLayout());
+	        
+	        
+	        JLabel lblWelcome = new JLabel("Welcome " + userName, JLabel.CENTER);
+	        
+//	        String strWelcome = "Welcome " + userName;
+	        
+//	        lblWelcome.setText(strWelcome);
+	        
+//	        showTabsButton = new JButton("Show Tabs");
+//	        showTabsButton.addActionListener(e -> showTabs());
 	        
 	        cmbLoginWindow = new JComboBox<String>(userType);
 			 
 	        panel.add(cmbLoginWindow);
+	        cmbLoginWindow.addItemListener(this);
 	        
 	        
 
@@ -204,8 +230,36 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 	    }
 	 public void logout(){
 		 
-		 
-//		 this.add(panel);
-//		 this.pack();
+		    strUser = null;
+		    strPassword = null;
+		    
+		    view.setEnabled(false);
+
+		    if (panel != null) {
+		        this.remove(panel);
+		        panel = null;
+		    }
+
+		    JOptionPane.showMessageDialog(this, "You have been logged out successfully!");
+
+		    this.revalidate();
+		    this.repaint();
 	 }
+	 
+//	 private void showTabs() {
+//	        if (tabbedPane == null) {
+//	            tabbedPane = new JTabbedPane();
+//
+//	            tabbedPane.addTab("Tab 1", new JLabel("Content of Tab 1"));
+//	            tabbedPane.addTab("Tab 2", new JLabel("Content of Tab 2"));
+//	            tabbedPane.addTab("Tab 3", new JLabel("Content of Tab 3"));
+//
+//	            panel.add(tabbedPane, BorderLayout.CENTER);
+//
+//	            panel.revalidate();
+//	            panel.repaint();
+//	        }
+//	    }
+	 
+	 
 }
