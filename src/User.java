@@ -5,22 +5,22 @@ public class User {
 	private String password;
 	private String userType;
 	
+	private String string1;
+	private Integer integer1;
+	private Double double1;
+	
 	public User(String user, String pass, String type){
 		this.userName = user;
 		this.password = pass;
 		this.userType = type;
 	}
+	public void setPassword(String newPassword){this.password = newPassword;}
+	public void setType(String newType){this.userType = newType;}
 	
-	public String getUserName(){
-		return this.userName;
-	}
+	public String getUserName(){return this.userName;}
+	public String getUserPassword(){return this.password;}
+	public String getUserType(){return this.userType;}
 	
-	public String getUserPassword(){
-		return this.password;
-	}
-	public String getUserType(){
-		return this.userType;
-	}
 	public String toString(){
 		return 
 				"User Name: " + userName + 

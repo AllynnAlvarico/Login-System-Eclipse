@@ -9,10 +9,12 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -21,6 +23,12 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 	@Override
 	public void itemStateChanged(ItemEvent i) {
 		// TODO Auto-generated method stub
+		if (i.getStateChange() == ItemEvent.SELECTED) {
+	          Object item = i.getItem();
+	          System.out.print("Hello Bitch");
+	          System.out.print(item.toString());
+	          // do something with object
+	       }
 		
 	}
 
@@ -31,12 +39,14 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 		else if(a.getActionCommand().equalsIgnoreCase("Log out")) System.out.print("Hello Bitch");
 		else if(a.getActionCommand().equalsIgnoreCase("Log in")) login();
 		else if(a.getActionCommand().equalsIgnoreCase("Sign up")) registration();
+//		else if(a.getSource() == cmbUserType.) System.out.print("Hello I am line 35");
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent p) {
 		// TODO Auto-generated method stub
-		
+		String propertyName = p.getPropertyName();
+        if ("Individual".equals(propertyName)) System.out.println("Hello My friend");
 	}
 	
 	private AdminSystem admin;
@@ -55,6 +65,8 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 	JMenuItem login;
 	JMenuItem logout;
 	
+	JPanel panel;
+	
 	String message;
 	String[] userType = {"Individual", "Corporate", "Nonprofit Organisation"};
 	int result;
@@ -62,6 +74,7 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 	JTextField userField;
 	JPasswordField passField;
 	JComboBox cmbUserType;
+	JComboBox cmbLoginWindow;
 	
 	JMenuItem quit;
 	
@@ -141,6 +154,7 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 	    	System.out.println("User is Validated");
 	    	System.out.println("User: " + temp.getUserName() + "Password: " + temp.getUserPassword());
 	    	view.setEnabled(true);
+	    	panel(temp.getUserName());
 	    }else{
 	    	JOptionPane.showMessageDialog(this, "Invalid user name or password !");
 	    }
@@ -160,8 +174,8 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 
 	    if (result == JOptionPane.OK_OPTION) {
 	    	//Sequence of taking the data Strings were in the wrong sequence.
-	        strUser = userField.getText(); // -> help of gpt
-	        strPassword = new String(passField.getPassword());// -> help of gpt
+	        strUser = userField.getText();
+	        strPassword = new String(passField.getPassword());
 	        if (admin.isUsernameTaken(strUser)) {
 	            JOptionPane.showMessageDialog(this, "User Exists!");
 	        } else {
@@ -171,4 +185,27 @@ public class WindowApp extends JFrame implements ActionListener, ItemListener, P
 	        }
 	    }
 	}
+	 public void panel(String userName){
+	        panel = new JPanel();
+	        JLabel lblWelcome = new JLabel();
+	        String strWelcome = "Welcome " + userName;
+	        lblWelcome.setText(strWelcome);
+	        
+	        cmbLoginWindow = new JComboBox<String>(userType);
+			 
+	        panel.add(cmbLoginWindow);
+	        
+	        
+
+	        panel.add(lblWelcome);
+
+	        this.add(panel);
+	        this.pack();
+	    }
+	 public void logout(){
+		 
+		 
+//		 this.add(panel);
+//		 this.pack();
+	 }
 }

@@ -14,8 +14,6 @@ public class AdminSystem {
 		return false;
 	}
 	
-	
-	
 	public boolean listContain(User u){
 		return users.contains(u);
 	}
@@ -29,9 +27,6 @@ public class AdminSystem {
 	    return false;
 	}
 	
-	
-	
-	
 	public User getUser(String user, String password){
 		for(User u : users){
 			if(u.getUserName().equals(user) && u.getUserPassword().equals(password)) 
@@ -39,6 +34,7 @@ public class AdminSystem {
 		}
 		return null;
 	}
+	
 	public ArrayList<User> getUsers(){
 		return users;
 	}
