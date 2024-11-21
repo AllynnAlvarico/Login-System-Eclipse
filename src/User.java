@@ -5,9 +5,6 @@ public class User {
 	private String password;
 	private String userType;
 	
-	private String string1;
-	private Integer integer1;
-	private Double double1;
 	
 	public User(String user, String pass, String type){
 		this.userName = user;
